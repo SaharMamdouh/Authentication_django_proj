@@ -1,0 +1,71 @@
+{% extends 'main/base_layout.html'%}
+{% block content %}
+<h1> Movies</h1>
+<!--{{data}}-->
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">name</th>
+        <th scope="col">language</th>
+        <th scope="col">rate</th>
+        <th scope="col">Description</th>
+        <th scope="col">   Poster </th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr>
+        <th scope="row">{{mov.name}}</th>
+        <td>{{mov.language}}</td>
+        <td>{{mov.rate}}</td>
+        <td>{{mov.description}}</td>
+        <td><img src={{ mov.image.url }} style="max-width:60%;max-height:60%">  {{ mov.image.url }}</td>
+        <td>
+            <a  class="btn btn-primary" href="{% url 'movie:movies-data' %}">back</a>
+            <a  class="btn btn-warning" href="{% url 'movie:update-data' mov.id %}">update</a>
+            <a  class="btn btn-danger" href="{% url 'movie:delete-data' mov.id %}">delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="container" >
+    <div style="position:absolute;left:800px">
+<h2>Official Trailer</h2>
+<video width="500" height="300" controls>
+            <source src="{{mov.video.url}}" type="video/mp4">
+</video>
+    </div>
+
+<div>
+    <ul>
+        <h2>Actors</h2>
+        {% for actor in mov.actors.all %}
+           <li>{{actor.cast_name}}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    <ul>
+        <h2>Reviews</h2>
+        {% for review in mov.review_set.all %}
+           <li>{{review.comment}}</li>
+           {% if review.attachment%}
+            <img src="{{review.attachment.url}}"/>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    <ul>
+        <h2>Categories</h2>
+        {% for cat in mov.categories.all %}
+           <li>{{cat.type}}</li>
+        {% endfor %}
+    </ul>
+</div>
+</div>
+
+
+
+
+{% endblock %}

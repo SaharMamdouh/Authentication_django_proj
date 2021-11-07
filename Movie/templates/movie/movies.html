@@ -1,0 +1,56 @@
+{% extends 'main/base_layout.html'%}
+{% load widget_tweaks %}
+{% block content %}
+<h1> Movies</h1>
+<form method="post" novalidate enctype="multipart/form-data">
+    {% csrf_token %}
+{% for field in form %}
+<div class="container">
+    {{field.label_tag}}
+    {% if field.label_tag == "Active:" %}
+        {% render_field field class='form-check-input' %}
+    {% else %}
+        {% render_field field class='form-control mt-3' %}
+    {% endif %}
+
+</div>
+{% endfor %}
+    <br/>
+    <div class="container">
+    <button class="btn btn-success" type="submit">Add</button>
+    </div>
+
+
+</form>
+<!--{{data}}-->
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">name</th>
+        <th scope="col">language</th>
+        <th scope="col">rate</th>
+        <th scope="col">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for i in mov %}
+    <tr>
+        <th scope="row">{{i.name}}</th>
+        <td>{{i.language}}</td>
+        <td>{{i.rate}}</td>
+        <td>{{i.description}}</td>
+<!--        <td><img src={{ i.image.url }}></td>-->
+        <td>
+            <a  class="btn btn-primary" href="{% url 'movie:view-data' i.id%}">view</a>
+            <a  class="btn btn-warning" href="{% url 'movie:update-data' i.id%}">update</a>
+            <a  class="btn btn-danger" href="{% url 'movie:delete-data' i.id %}">delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}
